@@ -1,0 +1,17 @@
+slug: saving-quiz
+title: Тест по сбережениям
+pass_threshold: 0.7
+questions:
+  - type: single_choice
+    prompt: Сколько обычно держат в «подушке безопасности»?
+    options:
+      - { id: 1, text: На 3–6 месяцев расходов }
+      - { id: 2, text: На 10 лет вперёд }
+      - { id: 3, text: Ровно одну зарплату }
+    correct: { option_ids: [1] }
+    explanation: Резерв на 3–6 месяцев расходов — разумный ориентир.
+
+  - type: numeric
+    prompt: "Чтобы накопить 120000 за 12 месяцев, сколько откладывать в месяц?"
+    correct: { value: 10000, tolerance: { type: absolute, value: 0 } }
+    explanation: 120000 / 12 = 10000.

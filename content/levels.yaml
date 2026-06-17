@@ -1,0 +1,7 @@
+# level -> cumulative XP required to reach it. Level = max threshold whose
+# required_xp <= total_xp.
+thresholds:
+  - { level: 1, required_xp: 0 }
+  - { level: 2, required_xp: 30 }
+  - { level: 3, required_xp: 60 }
+  - { level: 4, required_xp: 100 }

@@ -1,0 +1,23 @@
+slug: savings-goal
+title: Цель накопления
+instructions: |
+  В ячейке **B4** посчитайте, сколько нужно откладывать в месяц, чтобы накопить
+  цель (B1) за указанное число месяцев (B2). Ответ должен быть формулой.
+sheet:
+  cells:
+    A1: { value: "Цель" }
+    B1: { value: 120000 }
+    A2: { value: "Срок, мес." }
+    B2: { value: 12 }
+    A4: { value: "Откладывать в месяц" }
+    B4: { value: null }
+editable: [B4]
+hints:
+  - "Взнос в месяц = B1 / B2"
+grading:
+  rules:
+    - cell: B4
+      expected: 10000
+      tolerance: { type: absolute, value: 0.5 }
+      must_be_formula: true
+  xp: 10

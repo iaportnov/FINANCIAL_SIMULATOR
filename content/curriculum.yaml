@@ -1,0 +1,22 @@
+# Curriculum: courses -> blocks -> steps. Steps reference activities by slug;
+# the seeder resolves slugs to ids. Strictly linear gating on MVP.
+courses:
+  - slug: personal-finance-basics
+    title: Основы личных финансов
+    description: Базовый курс о бюджете, сбережениях и кредитах.
+    order: 1
+    blocks:
+      - slug: budgeting
+        title: Личный бюджет
+        xp: 30
+        steps:
+          - { type: lesson, ref: budgeting-basics, title: "Урок: что такое бюджет" }
+          - { type: quiz, ref: budgeting-quiz, title: "Тест: бюджет" }
+          - { type: trainer_task, ref: loan-monthly-payment, title: "Тренажёр: платёж по кредиту" }
+      - slug: saving
+        title: Сбережения
+        xp: 30
+        steps:
+          - { type: lesson, ref: saving-basics, title: "Урок: зачем копить" }
+          - { type: quiz, ref: saving-quiz, title: "Тест: сбережения" }
+          - { type: trainer_task, ref: savings-goal, title: "Тренажёр: цель накопления" }

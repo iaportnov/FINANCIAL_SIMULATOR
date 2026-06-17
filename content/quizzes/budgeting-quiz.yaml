@@ -1,0 +1,26 @@
+slug: budgeting-quiz
+title: Тест по основам бюджета
+pass_threshold: 0.7
+questions:
+  - type: single_choice
+    prompt: Что такое личный бюджет?
+    options:
+      - { id: 1, text: План доходов и расходов }
+      - { id: 2, text: Кредит в банке }
+      - { id: 3, text: Налоговая декларация }
+    correct: { option_ids: [1] }
+    explanation: Бюджет — это план доходов и расходов на период.
+
+  - type: multiple_choice
+    prompt: Что относится к доходам?
+    options:
+      - { id: 1, text: Зарплата }
+      - { id: 2, text: Проценты по вкладу }
+      - { id: 3, text: Поход в магазин }
+    correct: { option_ids: [1, 2] }
+    explanation: Поход в магазин — это расход, а не доход.
+
+  - type: numeric
+    prompt: "Доход 50000, расходы 35000. Сколько можно отложить?"
+    correct: { value: 15000, tolerance: { type: absolute, value: 0 } }
+    explanation: 50000 − 35000 = 15000.
