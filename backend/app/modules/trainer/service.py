@@ -23,6 +23,7 @@ class TrainerService:
         task = await self.repo.get_task(task_id)
         if not task:
             raise NotFoundError("Trainer task not found")
+        grading = await self.repo.get_grading(task_id)
         return TrainerTaskPublic(
             id=task.id,
             slug=task.slug,
@@ -30,6 +31,7 @@ class TrainerService:
             instructions_md=task.instructions_md,
             sheet=task.sheet,
             editable=task.editable,
+            grading_rules=grading.rules if grading else [],
         )
 
     async def grade(self, task_id: int, cells: dict[str, dict], user_id: int) -> TrainerResult:

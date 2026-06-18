@@ -6,6 +6,7 @@ class QuestionPublic(BaseModel):
     type: str
     prompt: str
     options: list[dict] | None = None  # choice options; no correct answers exposed
+    correct: dict | None = None
 
 
 class QuizPublic(BaseModel):

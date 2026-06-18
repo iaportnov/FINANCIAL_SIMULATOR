@@ -29,7 +29,13 @@ class QuizService:
             title=quiz.title,
             pass_threshold=quiz.pass_threshold,
             questions=[
-                QuestionPublic(id=q.id, type=q.type, prompt=q.prompt, options=q.options)
+                QuestionPublic(
+                    id=q.id, 
+                    type=q.type, 
+                    prompt=q.prompt, 
+                    options=q.options,
+                    correct=q.correct
+                )
                 for q in quiz.questions
             ],
         )

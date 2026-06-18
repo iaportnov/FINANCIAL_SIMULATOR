@@ -7,6 +7,7 @@ export interface TrainerTaskPublic {
   instructions_md: string;
   sheet: { cells?: Record<string, { value?: unknown; formula?: string | null }> };
   editable: string[];
+  grading_rules?: any[];
 }
 
 /** Neutral cell model sent on submit: A1 -> { value, formula }. */

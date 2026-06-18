@@ -42,12 +42,12 @@ export function App() {
     <AppShell header={{ height: 66 }} padding="lg">
       <AppShell.Header className="vtb-header">
         <Group h="100%" px="lg" justify="space-between" wrap="nowrap">
-          <Link to="/" className="vtb-brand">
-            <BrandMark size={34} style={{ flexShrink: 0 }} />
-            <div>
-              <div className="vtb-brand__title">ВТБ Образование</div>
-              <div className="vtb-brand__sub">МСФО · практикум</div>
+          <Link to="/" className="vtb-brand" aria-label="ВТБ Образование, МСФО практикум">
+            <div className="vtb-brand__lockup">
+              <BrandMark size={22} style={{ flexShrink: 0 }} />
+              <span className="vtb-brand__edu">Образование</span>
             </div>
+            <div className="vtb-brand__sub">МСФО · практикум</div>
           </Link>
 
           <Group gap="xs" wrap="nowrap">

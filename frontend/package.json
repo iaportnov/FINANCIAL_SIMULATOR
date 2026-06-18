@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
+    "generate:assets": "node scripts/generate-vtb-assets.mjs",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",

@@ -14,7 +14,7 @@ import {
 } from "@mantine/core";
 import ReactMarkdown from "react-markdown";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { type ProgressSummary, fetchProgress } from "../progression/api";
@@ -34,6 +34,32 @@ export function TrainerPage() {
   const [result, setResult] = useState<TrainerResult | null>(null);
   const [assistantOpen, setAssistantOpen] = useState(true);
   const trainerRef = useRef<SpreadsheetTrainerHandle>(null);
+  const [sheetData, setSheetData] = useState<any>(null);
+
+  useEffect(() => {
+    if (task) {
+      setSheetData(task.sheet);
+    }
+  }, [task]);
+
+  const fillCorrect = () => {
+    if (!task || !task.grading_rules) return;
+    const newSheet = JSON.parse(JSON.stringify(task.sheet));
+    if (!newSheet.cells) newSheet.cells = {};
+    task.grading_rules.forEach((rule: any) => {
+      let f = undefined;
+      if (rule.must_use_function && rule.must_use_function.length > 0) {
+        f = `=${rule.expected}+IF(FALSE,${rule.must_use_function[0]}(),0)`;
+      } else if (rule.must_be_formula) {
+        f = `=${rule.expected}`;
+      }
+      newSheet.cells[rule.cell] = {
+        value: rule.expected,
+        formula: f,
+      };
+    });
+    setSheetData(newSheet);
+  };
 
   const submit = useMutation({
     mutationFn: (cells: CellModel) => submitTask(id, cells),
@@ -93,6 +119,12 @@ export function TrainerPage() {
               <ReactMarkdown>{task.instructions_md}</ReactMarkdown>
             </TypographyStylesProvider>
 
+            {!result?.passed && (
+              <Button variant="outline" color="red" size="sm" onClick={fillCorrect}>
+                Заполнить правильные ответы
+              </Button>
+            )}
+
             {result && !result.passed && (
               <Paper withBorder p="sm" style={{ borderColor: "#ffd2d2", background: "#fff6f6" }}>
                 <Text fw={700} c="red" fz="sm" mb={6}>
@@ -125,13 +157,16 @@ export function TrainerPage() {
       </ScrollArea>
 
       <div style={{ flex: 1, minWidth: 0 }}>
-        <SpreadsheetTrainer
-          ref={trainerRef}
-          sheet={task.sheet}
-          editable={task.editable}
-          onSubmit={(c) => submit.mutate(c)}
-          hideSubmit={result?.passed}
-        />
+        {sheetData && (
+          <SpreadsheetTrainer
+            key={JSON.stringify(sheetData)}
+            ref={trainerRef}
+            sheet={sheetData}
+            editable={task.editable}
+            onSubmit={(c) => submit.mutate(c)}
+            hideSubmit={result?.passed}
+          />
+        )}
       </div>
 
       {assistantOpen && (

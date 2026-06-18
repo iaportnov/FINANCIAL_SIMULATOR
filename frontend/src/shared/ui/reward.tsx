@@ -98,6 +98,7 @@ function RewardOverlay({
         {isLevel ? (
           <>
             <div className="vtb-level-badge">
+              <img className="vtb-level-badge__medal" src="/brand/level-medal.png" alt="" />
               <svg viewBox="0 0 132 132" width="132" height="132">
                 <circle className="vtb-level-ring-bg" cx="66" cy="66" r="58" />
                 <circle className="vtb-level-ring" cx="66" cy="66" r="58" />

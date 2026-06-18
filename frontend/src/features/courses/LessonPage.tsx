@@ -23,6 +23,11 @@ import { fetchLesson } from "./api";
 const LESSON_HERO_IMAGES: Record<string, string> = {
   "budgeting-basics": "/lesson-images/ifrs-16-lease-hero.png",
   "saving-basics": "/lesson-images/ifrs-15-revenue-hero.png",
+  "ifrs-16-leases": "/lesson-images/ifrs-16-lease-hero.png",
+  "ias-12-deferred-tax": "/lesson-images/ias-12-tax-hero.png",
+  "ifrs-10-consolidation": "/lesson-images/ifrs-10-consolidation-hero.png",
+  "ias-36-impairment": "/lesson-images/ias-36-impairment-hero.png",
+  "ifrs-15-revenue": "/lesson-images/ifrs-15-revenue-hero.png",
 };
 
 export function LessonPage() {

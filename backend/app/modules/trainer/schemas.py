@@ -8,6 +8,7 @@ class TrainerTaskPublic(BaseModel):
     instructions_md: str
     sheet: dict
     editable: list[str]
+    grading_rules: list[dict] | None = None
     # NOTE: grading rules are intentionally absent from the public projection.
 
 

@@ -1,9 +1,13 @@
-import { Card, Center, Container, Group, Loader, SimpleGrid, Text, Title } from "@mantine/core";
+import { Card, Center, Container, Group, Image, Loader, SimpleGrid, Text, Title } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 
 import { TrainerIcon } from "../../shared/ui/icons";
 import { fetchCourses } from "./api";
+
+const COURSE_IMAGES: Record<string, string> = {
+  "personal-finance-basics": "/courses/personal-finance-basics.png",
+};
 
 export function CoursesPage() {
   const { data, isLoading } = useQuery({ queryKey: ["courses"], queryFn: fetchCourses });
@@ -34,7 +38,12 @@ export function CoursesPage() {
             style={{ textDecoration: "none", color: "inherit", transition: "transform .16s, box-shadow .16s" }}
             className="vtb-card-hover"
           >
-            <Group justify="space-between" mb="sm">
+            {COURSE_IMAGES[course.slug] ? (
+              <Card.Section>
+                <Image src={COURSE_IMAGES[course.slug]} alt="" h={160} fit="cover" />
+              </Card.Section>
+            ) : null}
+            <Group justify="space-between" mt={COURSE_IMAGES[course.slug] ? "md" : 0} mb="sm">
               <div
                 style={{
                   width: 44,

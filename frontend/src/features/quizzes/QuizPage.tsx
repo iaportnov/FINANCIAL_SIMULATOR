@@ -64,6 +64,20 @@ export function QuizPage() {
   const setAnswer = (qid: number, patch: Partial<AnswerInput>) =>
     setAnswers((prev) => ({ ...prev, [qid]: { ...prev[qid], ...patch, question_id: qid } }));
 
+  const fillCorrect = () => {
+    const newAnswers: Record<number, AnswerInput> = {};
+    quiz.questions.forEach((q) => {
+      if (q.correct) {
+        newAnswers[q.id] = {
+          question_id: q.id,
+          option_ids: q.correct.option_ids,
+          value: q.correct.value,
+        };
+      }
+    });
+    setAnswers(newAnswers);
+  };
+
   const resultFor = (qid: number) => result?.results.find((r) => r.question_id === qid);
 
   return (
@@ -102,7 +116,10 @@ export function QuizPage() {
               </Group>
 
               {q.type === "single_choice" && q.options && (
-                <Radio.Group onChange={(v) => setAnswer(q.id, { option_ids: [Number(v)], value: undefined })}>
+                <Radio.Group 
+                  value={answers[q.id]?.option_ids?.[0]?.toString() || ""}
+                  onChange={(v) => setAnswer(q.id, { option_ids: [Number(v)], value: undefined })}
+                >
                   <Stack gap="xs" pl={42}>
                     {q.options.map((o) => <Radio key={o.id} value={String(o.id)} label={o.text} />)}
                   </Stack>
@@ -110,9 +127,12 @@ export function QuizPage() {
               )}
 
               {q.type === "multiple_choice" && q.options && (
-                <Checkbox.Group onChange={(vals) => setAnswer(q.id, { option_ids: vals.map(Number), value: undefined })}>
+                <Checkbox.Group 
+                  value={answers[q.id]?.option_ids?.map(String) || []}
+                  onChange={(vals) => setAnswer(q.id, { option_ids: vals.map(Number), value: undefined })}
+                >
                   <Stack gap="xs" pl={42}>
-                    {q.options.map((o) => <Checkbox key={o.id} value={String(o.id)} label={o.text} />)}
+                    {q.options.map((o) => <Checkbox key={o.id} value={String(o.id)} label={o.text} radius={0} />)}
                   </Stack>
                 </Checkbox.Group>
               )}
@@ -121,6 +141,7 @@ export function QuizPage() {
                 <NumberInput
                   pl={42}
                   placeholder="Ваш ответ"
+                  value={answers[q.id]?.value ?? ""}
                   onChange={(v) => setAnswer(q.id, { value: typeof v === "number" ? v : Number(v), option_ids: undefined })}
                 />
               )}
@@ -142,9 +163,14 @@ export function QuizPage() {
         })}
 
         {!result?.passed && (
-          <Button size="md" onClick={() => submit.mutate()} loading={submit.isPending}>
-            Проверить
-          </Button>
+          <Group>
+            <Button size="md" onClick={() => submit.mutate()} loading={submit.isPending}>
+              Проверить
+            </Button>
+            <Button size="md" variant="outline" color="red" onClick={fillCorrect}>
+              Заполнить правильные ответы
+            </Button>
+          </Group>
         )}
 
         {result && (

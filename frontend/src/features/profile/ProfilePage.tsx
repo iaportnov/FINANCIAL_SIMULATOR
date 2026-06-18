@@ -43,9 +43,10 @@ export function ProfilePage() {
       <Paper withBorder p={0} className="vtb-rise" style={{ overflow: "hidden" }}>
         <div style={{ background: "var(--vtb-gradient)", height: 96 }} />
         <div style={{ padding: "0 28px 28px" }}>
-          <Group align="flex-end" gap="lg" style={{ marginTop: -44 }}>
+          <Group align="flex-start" gap="lg" wrap="nowrap">
             <div
               style={{
+                marginTop: -44,
                 width: 88,
                 height: 88,
                 borderRadius: 24,
@@ -72,7 +73,7 @@ export function ProfilePage() {
                 {initials(user.display_name)}
               </div>
             </div>
-            <div style={{ paddingBottom: 6 }}>
+            <div style={{ paddingTop: 8 }}>
               <Text fz={22} fw={800}>
                 {user.display_name}
               </Text>

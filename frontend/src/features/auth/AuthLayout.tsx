@@ -14,10 +14,14 @@ export function AuthLayout({ children }: { children: ReactNode }) {
     <Container size="lg" mt={{ base: "md", sm: "xl" }} px={0}>
       <SimpleGrid cols={{ base: 1, md: 2 }} spacing="xl" className="vtb-rise">
         <aside className="vtb-auth-aside" style={{ display: "flex" }} data-hide-mobile>
+          <img className="vtb-auth-aside__image" src="/brand/auth-aside.png" alt="" />
           <div style={{ position: "relative", zIndex: 1 }}>
-            <BrandMark size={44} />
+            <div className="vtb-auth-brand">
+              <BrandMark size={30} />
+              <span>Образование</span>
+            </div>
             <Text fz={11} fw={700} mt="lg" style={{ letterSpacing: "0.16em", opacity: 0.8 }}>
-              ВТБ ОБРАЗОВАНИЕ
+              ОБРАЗОВАТЕЛЬНАЯ ПЛАТФОРМА
             </Text>
             <Text fz={28} fw={800} mt={6} mb="sm" style={{ lineHeight: 1.15 }}>
               Профессиональная практика МСФО

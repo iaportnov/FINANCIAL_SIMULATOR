@@ -10,6 +10,7 @@ export interface QuestionPublic {
   type: "single_choice" | "multiple_choice" | "numeric";
   prompt: string;
   options: QuestionOption[] | null;
+  correct?: any;
 }
 
 export interface QuizPublic {

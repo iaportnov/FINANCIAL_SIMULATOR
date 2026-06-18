@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 
 import { activityMeta, type ActivityType } from "../../shared/ui/activity";
-import { BrandMark, CheckIcon, LockIcon, SparkIcon } from "../../shared/ui/icons";
+import { CheckIcon, LockIcon, SparkIcon } from "../../shared/ui/icons";
 import {
   type BlockNode,
   fetchMap,
@@ -77,7 +77,7 @@ export function MapPage() {
   return (
     <Container size="md" px={0}>
       <section className="vtb-hero vtb-rise" style={{ marginBottom: 28 }}>
-        <BrandMark size={120} style={{ position: "absolute", right: 12, bottom: -18, opacity: 0.28 }} />
+        <img className="vtb-map-hero__image" src="/brand/map-hero.png" alt="" />
         <Text fz={13} fw={700} style={{ letterSpacing: "0.16em", opacity: 0.8 }}>
           ТРАЕКТОРИЯ ОБУЧЕНИЯ
         </Text>
