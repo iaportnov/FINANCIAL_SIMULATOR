@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, timezone
+from uuid import uuid4
 
 import bcrypt
 import jwt
@@ -26,6 +27,7 @@ def _create_token(subject: str, token_type: str, expires_delta: timedelta) -> st
     payload = {
         "sub": subject,
         "type": token_type,
+        "jti": uuid4().hex,
         "iat": int(now.timestamp()),
         "exp": int((now + expires_delta).timestamp()),
     }

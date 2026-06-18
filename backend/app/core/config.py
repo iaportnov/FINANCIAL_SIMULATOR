@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     )
 
     # Auth / JWT
-    jwt_secret: str = "change-me-in-production"
+    jwt_secret: str = "dev-secret-change-me-32-bytes-minimum"
     jwt_algorithm: str = "HS256"
     jwt_access_ttl_minutes: int = 15
     jwt_refresh_ttl_days: int = 14

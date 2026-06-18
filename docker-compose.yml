@@ -19,7 +19,7 @@ services:
     build: ./backend
     environment:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/financial_simulator
-      JWT_SECRET: change-me-in-production
+      JWT_SECRET: dev-secret-change-me-32-bytes-minimum
       CORS_ORIGINS: http://localhost:5173
       CONTENT_DIR: /content
     volumes:
