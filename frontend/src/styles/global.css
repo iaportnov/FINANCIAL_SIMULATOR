@@ -94,9 +94,9 @@ body {
 }
 .vtb-brand {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 3px;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
   text-decoration: none;
   color: #fff;
 }
@@ -104,15 +104,18 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  padding: 5px 9px 5px 8px;
+  padding: 5px 12px 5px 8px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+  background: rgba(255, 255, 255, 0.14);
+  transition: background 0.18s ease;
+}
+.vtb-brand:hover .vtb-brand__lockup {
+  background: rgba(255, 255, 255, 0.24);
 }
 .vtb-brand__edu {
   padding-left: 9px;
-  border-left: 1px solid rgba(10, 45, 128, 0.18);
-  color: var(--vtb-navy);
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
   font-weight: 800;
   font-size: 15px;
   line-height: 1;
@@ -123,7 +126,7 @@ body {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.72);
-  margin-top: 3px;
+  white-space: nowrap;
 }
 .vtb-navlink {
   position: relative;

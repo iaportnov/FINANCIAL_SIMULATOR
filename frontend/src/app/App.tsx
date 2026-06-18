@@ -44,7 +44,7 @@ export function App() {
         <Group h="100%" px="lg" justify="space-between" wrap="nowrap">
           <Link to="/" className="vtb-brand" aria-label="ВТБ Образование, МСФО практикум">
             <div className="vtb-brand__lockup">
-              <BrandMark size={22} style={{ flexShrink: 0 }} />
+              <BrandMark size={22} color="#fff" style={{ flexShrink: 0 }} />
               <span className="vtb-brand__edu">Образование</span>
             </div>
             <div className="vtb-brand__sub">МСФО · практикум</div>
