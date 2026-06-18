@@ -39,6 +39,11 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+.mantine-AppShell-root,
+.mantine-AppShell-main {
+  background: transparent !important;
+}
+
 ::selection {
   background: var(--vtb-sky);
   color: var(--vtb-navy-deep);
