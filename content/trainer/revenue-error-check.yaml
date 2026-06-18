@@ -1,8 +1,11 @@
-slug: savings-goal
-title: "IFRS 15: распределение цены сделки"
+slug: revenue-error-check
+title: "IFRS 15: найдите ошибку в расчете выручки"
 instructions: |
-  Подготовьте расчет по договору с тремя performance obligations: лицензия,
-  внедрение и поддержка.
+  Проверьте готовый расчет распределения transaction price по IFRS 15.
+
+  В таблице уже заполнены формулы, но одна из них содержит ошибку. Найдите
+  ошибочную ячейку и исправьте формулу так, чтобы выручка на отчетную дату и
+  contract liability были рассчитаны корректно.
 
   Условия:
   - фиксированная цена договора указана в B1;
@@ -12,13 +15,7 @@ instructions: |
   - внедрение завершено к отчетной дате;
   - поддержка признается over time равномерно.
 
-  Заполните формулами **B11:B18**:
-  - transaction price;
-  - total SSP;
-  - распределение цены сделки на лицензию, внедрение и поддержку;
-  - выручку по поддержке на отчетную дату;
-  - общую признанную выручку;
-  - contract liability на отчетную дату.
+  Исправьте формулу в **B16**.
 sheet:
   cells:
     A1: { value: "Фиксированная цена договора" }
@@ -37,48 +34,28 @@ sheet:
     B8: { value: 3 }
     A10: { value: "Расчет" }
     A11: { value: "Transaction price" }
-    B11: { value: null }
+    B11: { value: 1140000, formula: "B1+B2" }
     A12: { value: "Total SSP" }
-    B12: { value: null }
+    B12: { value: 1500000, formula: "B4+B5+B6" }
     A13: { value: "Allocation: license" }
-    B13: { value: null }
+    B13: { value: 608000, formula: "B11*B4/B12" }
     A14: { value: "Allocation: implementation" }
-    B14: { value: null }
+    B14: { value: 190000, formula: "B11*B5/B12" }
     A15: { value: "Allocation: support" }
-    B15: { value: null }
+    B15: { value: 342000, formula: "B11*B6/B12" }
     A16: { value: "Support revenue to date" }
-    B16: { value: null }
+    B16: { value: 28500, formula: "B15/B7" }
     A17: { value: "Total revenue recognized" }
-    B17: { value: null }
+    B17: { value: 826500, formula: "B13+B14+B16" }
     A18: { value: "Contract liability" }
-    B18: { value: null }
-editable: [B11, B12, B13, B14, B15, B16, B17, B18]
+    B18: { value: 313500, formula: "B11-B17" }
+editable: [B16]
 hints:
-  - "Transaction price = fixed consideration + included variable consideration"
-  - "Allocation = transaction price * obligation SSP / total SSP"
+  - "Support revenue is recognized for the months already provided, not for one month only"
+  - "Use the ratio: months provided / total support term"
   - "Contract liability = transaction price - revenue recognized to date"
 grading:
   rules:
-    - cell: B11
-      expected: 1140000
-      tolerance: { type: absolute, value: 1 }
-      must_be_formula: true
-    - cell: B12
-      expected: 1500000
-      tolerance: { type: absolute, value: 1 }
-      must_be_formula: true
-    - cell: B13
-      expected: 608000
-      tolerance: { type: absolute, value: 1 }
-      must_be_formula: true
-    - cell: B14
-      expected: 190000
-      tolerance: { type: absolute, value: 1 }
-      must_be_formula: true
-    - cell: B15
-      expected: 342000
-      tolerance: { type: absolute, value: 1 }
-      must_be_formula: true
     - cell: B16
       expected: 85500
       tolerance: { type: absolute, value: 1 }
@@ -91,4 +68,4 @@ grading:
       expected: 256500
       tolerance: { type: absolute, value: 1 }
       must_be_formula: true
-  xp: 25
+  xp: 15

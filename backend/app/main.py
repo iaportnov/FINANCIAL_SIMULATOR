@@ -7,6 +7,7 @@ from app.modules.courses.router import router as courses_router
 from app.modules.progression.router import router as progression_router
 from app.modules.quizzes.router import router as quizzes_router
 from app.modules.trainer.router import router as trainer_router
+from app.modules.tutor.router import router as tutor_router
 from app.modules.users.router import router as users_router
 
 API_PREFIX = "/api/v1"
@@ -34,6 +35,7 @@ for module_router in (
     courses_router,
     quizzes_router,
     trainer_router,
+    tutor_router,
     progression_router,
 ):
     app.include_router(module_router, prefix=API_PREFIX)

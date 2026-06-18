@@ -1,17 +1,43 @@
 slug: saving-quiz
-title: Тест по сбережениям
-pass_threshold: 0.7
+title: "IFRS 15: выручка и цена сделки"
+pass_threshold: 0.8
 questions:
   - type: single_choice
-    prompt: Сколько обычно держат в «подушке безопасности»?
+    prompt: Когда переменное возмещение включается в transaction price по IFRS 15?
     options:
-      - { id: 1, text: На 3–6 месяцев расходов }
-      - { id: 2, text: На 10 лет вперёд }
-      - { id: 3, text: Ровно одну зарплату }
+      - { id: 1, text: Только в сумме, по которой высока вероятность отсутствия существенного сторно выручки }
+      - { id: 2, text: Всегда полностью, если менеджмент ожидает получить бонус }
+      - { id: 3, text: Только после поступления денежных средств }
+      - { id: 4, text: Никогда, переменное возмещение запрещено включать в цену сделки }
     correct: { option_ids: [1] }
-    explanation: Резерв на 3–6 месяцев расходов — разумный ориентир.
+    explanation: "IFRS 15 применяет constraint: включается только часть, по которой highly probable, что не будет significant reversal."
+
+  - type: multiple_choice
+    prompt: Какие действия нужны, если договор содержит лицензию, внедрение и поддержку?
+    options:
+      - { id: 1, text: Определить, являются ли они отдельными performance obligations }
+      - { id: 2, text: Распределить transaction price на основе standalone selling prices }
+      - { id: 3, text: Признать всю выручку при подписании договора, если счет уже выставлен }
+      - { id: 4, text: Для каждой obligation определить point in time или over time recognition }
+    correct: { option_ids: [1, 2, 4] }
+    explanation: Предоплата сама по себе не означает, что performance obligations выполнены.
 
   - type: numeric
-    prompt: "Чтобы накопить 120000 за 12 месяцев, сколько откладывать в месяц?"
-    correct: { value: 10000, tolerance: { type: absolute, value: 0 } }
-    explanation: 120000 / 12 = 10000.
+    prompt: "Transaction price 1 140 000. SSP лицензии 800 000, внедрения 250 000, поддержки 450 000. Сколько цены сделки распределяется на поддержку?"
+    correct: { value: 342000, tolerance: { type: absolute, value: 1 } }
+    explanation: Total SSP = 1 500 000; поддержка = 1 140 000 * 450 000 / 1 500 000 = 342 000.
+
+  - type: single_choice
+    prompt: Покупатель оплатил весь договор вперед, но поддержка будет оказываться еще 9 месяцев. Что возникает по невыполненной части поддержки?
+    options:
+      - { id: 1, text: Contract liability }
+      - { id: 2, text: Contract asset }
+      - { id: 3, text: Inventory }
+      - { id: 4, text: Share premium }
+    correct: { option_ids: [1] }
+    explanation: Полученная предоплата за еще не выполненную obligation отражается как contract liability.
+
+  - type: numeric
+    prompt: "На поддержку распределено 342 000. Срок поддержки 12 месяцев, оказано 3 месяца. Сколько выручки по поддержке признано на отчетную дату?"
+    correct: { value: 85500, tolerance: { type: absolute, value: 1 } }
+    explanation: 342 000 * 3 / 12 = 85 500.

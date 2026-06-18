@@ -2,21 +2,23 @@
 # the seeder resolves slugs to ids. Strictly linear gating on MVP.
 courses:
   - slug: personal-finance-basics
-    title: Основы личных финансов
-    description: Базовый курс о бюджете, сбережениях и кредитах.
+    title: IFRS-тренажер для специалистов
+    description: Практический курс по расчетам IFRS 16 и IFRS 15 для специалистов с 1–2 годами опыта.
     order: 1
     blocks:
       - slug: budgeting
-        title: Личный бюджет
-        xp: 30
+        title: "IFRS 16: аренда у арендатора"
+        xp: 50
         steps:
-          - { type: lesson, ref: budgeting-basics, title: "Урок: что такое бюджет" }
-          - { type: quiz, ref: budgeting-quiz, title: "Тест: бюджет" }
-          - { type: trainer_task, ref: loan-monthly-payment, title: "Тренажёр: платёж по кредиту" }
+          - { type: lesson, ref: budgeting-basics, title: "Урок: признание и оценка аренды" }
+          - { type: quiz, ref: budgeting-quiz, title: "Тест: IFRS 16" }
+          - { type: trainer_task, ref: lease-error-check, title: "Практика: найдите ошибку в расчете аренды" }
+          - { type: trainer_task, ref: loan-monthly-payment, title: "Тренажер: расчет lease liability и ROU asset" }
       - slug: saving
-        title: Сбережения
-        xp: 30
+        title: "IFRS 15: выручка по договорам"
+        xp: 50
         steps:
-          - { type: lesson, ref: saving-basics, title: "Урок: зачем копить" }
-          - { type: quiz, ref: saving-quiz, title: "Тест: сбережения" }
-          - { type: trainer_task, ref: savings-goal, title: "Тренажёр: цель накопления" }
+          - { type: lesson, ref: saving-basics, title: "Урок: transaction price и allocation" }
+          - { type: quiz, ref: saving-quiz, title: "Тест: IFRS 15" }
+          - { type: trainer_task, ref: revenue-error-check, title: "Практика: найдите ошибку в расчете выручки" }
+          - { type: trainer_task, ref: savings-goal, title: "Тренажер: распределение цены сделки" }

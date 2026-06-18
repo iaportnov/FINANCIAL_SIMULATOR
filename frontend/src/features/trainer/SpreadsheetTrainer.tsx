@@ -4,7 +4,7 @@ import { Button, Stack } from "@mantine/core";
 import { Workbook } from "@fortune-sheet/react";
 import type { Cell, CellWithRowAndCol, Sheet } from "@fortune-sheet/core";
 import type { WorkbookInstance } from "@fortune-sheet/react";
-import { useMemo, useRef } from "react";
+import { forwardRef, useImperativeHandle, useMemo, useRef } from "react";
 
 import type { CellModel } from "./api";
 
@@ -13,6 +13,11 @@ interface Props {
   editable: string[];
   onSubmit: (cells: CellModel) => void;
   hideSubmit?: boolean;
+}
+
+/** Imperative handle so the page (e.g. the AI assistant) can read the live cell model. */
+export interface SpreadsheetTrainerHandle {
+  getCells: () => CellModel;
 }
 
 const READONLY_CELL_BG = "#f1f3f5";
@@ -160,20 +165,25 @@ export function extractCellModel(sheet: Pick<Sheet, "celldata" | "data"> | undef
  * (task sheet in, CellModel out); the Fortune-sheet engine is isolated here, so
  * swapping engines later means rewriting only this file (see ADR-0006).
  */
-export function SpreadsheetTrainer({ sheet, editable, onSubmit, hideSubmit }: Props) {
+export const SpreadsheetTrainer = forwardRef<SpreadsheetTrainerHandle, Props>(
+  function SpreadsheetTrainer({ sheet, editable, onSubmit, hideSubmit }, handleRef) {
   const ref = useRef<WorkbookInstance>(null);
 
   const editableCells = useMemo(() => new Set(editable.map(normalizeA1)), [editable]);
   const data = useMemo(() => [buildTrainerSheet(sheet, editableCells)], [editableCells, sheet]);
 
-  const handleSubmit = () => {
+  const getCells = (): CellModel => {
     const currentSheet = ref.current?.getSheet?.() ?? ref.current?.getAllSheets?.()[0];
-    onSubmit(extractCellModel(currentSheet));
+    return extractCellModel(currentSheet);
   };
 
+  useImperativeHandle(handleRef, () => ({ getCells }), []);
+
+  const handleSubmit = () => onSubmit(getCells());
+
   return (
-    <Stack>
-      <div style={{ height: 420, minHeight: 420, width: "100%" }}>
+    <Stack h="100%" gap="sm">
+      <div style={{ flex: 1, minHeight: 0, width: "100%" }}>
         <Workbook
           ref={ref}
           data={data}
@@ -186,7 +196,12 @@ export function SpreadsheetTrainer({ sheet, editable, onSubmit, hideSubmit }: Pr
           }}
         />
       </div>
-      {!hideSubmit && <Button onClick={handleSubmit}>Проверить</Button>}
+      {!hideSubmit && (
+        <Button onClick={handleSubmit} style={{ flexShrink: 0 }}>
+          Проверить
+        </Button>
+      )}
     </Stack>
   );
-}
+},
+);

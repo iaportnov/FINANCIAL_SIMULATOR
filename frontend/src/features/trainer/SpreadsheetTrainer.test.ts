@@ -28,6 +28,26 @@ describe("SpreadsheetTrainer adapter", () => {
     expect(sheet.config?.authority?.sheet).toBe(1);
   });
 
+  it("preserves authored formulas in the initial sheet", () => {
+    const sheet = buildTrainerSheet(
+      {
+        cells: {
+          B1: { value: 100 },
+          B2: { value: 120, formula: "B1*1.2" },
+        },
+      },
+      new Set(["B2"]),
+    );
+
+    const b2 = sheet.celldata?.find((cell) => cell.r === 1 && cell.c === 1)?.v;
+
+    expect(b2).toMatchObject({
+      v: 120,
+      f: "B1*1.2",
+      lo: 0,
+    });
+  });
+
   it("extracts the neutral cell model from Fortune-sheet data or celldata", () => {
     expect(
       extractCellModel({

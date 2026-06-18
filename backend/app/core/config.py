@@ -25,9 +25,18 @@ class Settings(BaseSettings):
     # Content directory (source for the seeder)
     content_dir: str = "../content"
 
+    # AI tutor (Anthropic Claude). Empty key disables the assistant endpoint.
+    anthropic_api_key: str = ""
+    tutor_model: str = "claude-opus-4-8"
+    tutor_max_tokens: int = 1024
+
     @property
     def cors_origins_list(self) -> list[str]:
         return [o.strip() for o in self.cors_origins.split(",") if o.strip()]
+
+    @property
+    def tutor_enabled(self) -> bool:
+        return bool(self.anthropic_api_key)
 
 
 @lru_cache

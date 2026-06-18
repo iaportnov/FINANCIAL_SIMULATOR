@@ -1,7 +1,11 @@
-slug: loan-monthly-payment
-title: "IFRS 16: первоначальный расчет аренды"
+slug: lease-error-check
+title: "IFRS 16: найдите ошибку в расчете аренды"
 instructions: |
-  Подготовьте расчет первоначального признания аренды по IFRS 16.
+  Проверьте готовый расчет первоначального признания аренды по IFRS 16.
+
+  В таблице уже заполнены формулы, но одна из них содержит методологическую
+  ошибку. Найдите ошибочную ячейку и исправьте формулу так, чтобы расчет
+  текущей и долгосрочной частей lease liability стал корректным.
 
   Условия:
   - ежегодный платеж производится в конце года;
@@ -9,11 +13,7 @@ instructions: |
   - сервисных компонентов в платеже нет;
   - lease incentive уменьшает ROU asset, но не lease liability.
 
-  Заполните формулами ячейки **B9:B12**:
-  - B9: первоначальная lease liability как PV будущих платежей;
-  - B10: текущая часть обязательства на дату признания, равная погашению основного долга в первый год;
-  - B11: долгосрочная часть обязательства;
-  - B12: первоначальная стоимость ROU asset.
+  Исправьте формулу в **B10**.
 sheet:
   cells:
     A1: { value: "Ежегодный платеж, конец года" }
@@ -30,24 +30,20 @@ sheet:
     B6: { value: 100000 }
     A8: { value: "Расчет" }
     A9: { value: "Initial lease liability" }
-    B9: { value: null }
+    B9: { value: 3803838.54, formula: "B1*(1-(1+B3)^(-B2))/B3" }
     A10: { value: "Current portion" }
-    B10: { value: null }
+    B10: { value: -2603838.54, formula: "B1-B9" }
     A11: { value: "Non-current portion" }
-    B11: { value: null }
+    B11: { value: 6407677.08, formula: "B9-B10" }
     A12: { value: "Initial ROU asset" }
-    B12: { value: null }
-editable: [B9, B10, B11, B12]
+    B12: { value: 3933838.54, formula: "B9+B4+B5-B6" }
+editable: [B10]
 hints:
-  - "PV аннуитета постнумерандо: payment * (1 - (1 + rate)^(-term)) / rate"
-  - "Current portion = платеж первого года - процент за первый год"
-  - "ROU asset = lease liability + direct costs + restoration PV - lease incentive"
+  - "Current portion is the first-year principal repayment, not payment minus the full liability"
+  - "First-year interest = opening lease liability * incremental borrowing rate"
+  - "Current portion = cash payment - first-year interest"
 grading:
   rules:
-    - cell: B9
-      expected: 3803838.54
-      tolerance: { type: relative, value: 0.01 }
-      must_be_formula: true
     - cell: B10
       expected: 819616.15
       tolerance: { type: relative, value: 0.01 }
@@ -60,4 +56,4 @@ grading:
       expected: 3933838.54
       tolerance: { type: relative, value: 0.01 }
       must_be_formula: true
-  xp: 25
+  xp: 15
