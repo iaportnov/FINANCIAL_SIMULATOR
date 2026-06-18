@@ -24,7 +24,6 @@ services:
       CONTENT_DIR: /content
     volumes:
       - ./backend:/app
-      - /app/.venv          # keep the image's virtualenv (don't shadow with host)
       - ./content:/content
     ports:
       - "8000:8000"
