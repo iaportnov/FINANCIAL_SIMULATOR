@@ -25,10 +25,16 @@ PUBLIC_TASK = TrainerTaskPublic(
 
 
 def test_system_prompt_grounds_in_public_task_and_learner_state():
-    prompt = build_system_prompt(PUBLIC_TASK, {"B9": {"value": 999.0, "formula": "=PV(B3,B2,-B1)"}})
+    prompt = build_system_prompt(
+        PUBLIC_TASK,
+        {"B9": {"value": 999.0, "formula": "=PV(B3,B2,-B1)"}},
+        "Первоначальное арендное обязательство оценивается как приведенная стоимость платежей.",
+    )
 
     assert "IFRS 16" in prompt  # title
     assert "Заполните B9" in prompt  # instructions
+    assert "Методические заметки" in prompt
+    assert "приведенная стоимость платежей" in prompt
     assert "1200000" in prompt  # initial sheet data
     assert "=PV(B3,B2,-B1)" in prompt  # learner's current formula
     assert "не называй итоговое" in prompt.lower()  # guardrail persona
@@ -75,6 +81,7 @@ def _fake_task() -> SimpleNamespace:
         slug=PUBLIC_TASK.slug,
         title=PUBLIC_TASK.title,
         instructions_md=PUBLIC_TASK.instructions_md,
+        solution_notes="Проверь ставку дисконтирования и момент платежа.",
         sheet=PUBLIC_TASK.sheet,
         editable=PUBLIC_TASK.editable,
     )
@@ -92,13 +99,14 @@ async def test_service_grounds_request_without_loading_grading():
 
     assert reply.reply.startswith("Подумайте")
     assert "Заполните B9" in client.system
+    assert "Проверь ставку дисконтирования" in client.system
     assert client.messages == [{"role": "user", "content": "С чего начать в B9?"}]
 
 
 async def test_service_rejects_when_assistant_not_configured(monkeypatch):
     from app.modules.tutor import service as service_module
 
-    monkeypatch.setattr(service_module.settings, "anthropic_api_key", "")
+    monkeypatch.setattr(service_module.settings, "openai_api_key", "")
     service = TutorService(_FakeSession(_fake_task()))  # no client injected
 
     with pytest.raises(ValidationError):

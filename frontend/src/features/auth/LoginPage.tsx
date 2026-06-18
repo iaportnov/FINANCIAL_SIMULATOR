@@ -1,8 +1,9 @@
-import { Anchor, Button, Card, Container, PasswordInput, Stack, Text, TextInput, Title } from "@mantine/core";
+import { Anchor, Button, Paper, PasswordInput, Stack, Text, TextInput, Title } from "@mantine/core";
 import { type FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useAuthStore } from "../../shared/auth/store";
+import { AuthLayout } from "./AuthLayout";
 import { fetchMe, login } from "./api";
 
 export function LoginPage() {
@@ -28,21 +29,28 @@ export function LoginPage() {
   };
 
   return (
-    <Container size="xs" mt="xl">
-      <Card withBorder padding="lg">
+    <AuthLayout>
+      <Paper withBorder p="xl">
         <form onSubmit={onSubmit}>
           <Stack>
-            <Title order={3}>Вход</Title>
-            <TextInput label="Email" value={email} onChange={(e) => setEmail(e.currentTarget.value)} required />
+            <div>
+              <Title order={3}>С возвращением</Title>
+              <Text c="dimmed" fz="sm" mt={2}>
+                Войдите, чтобы продолжить обучение.
+              </Text>
+            </div>
+            <TextInput label="Email" placeholder="you@company.ru" value={email} onChange={(e) => setEmail(e.currentTarget.value)} required />
             <PasswordInput label="Пароль" value={password} onChange={(e) => setPassword(e.currentTarget.value)} required />
             {error && <Text c="red" size="sm">{error}</Text>}
-            <Button type="submit">Войти</Button>
-            <Text size="sm">
+            <Button type="submit" size="md" mt={4}>
+              Войти
+            </Button>
+            <Text size="sm" ta="center" c="dimmed">
               Нет аккаунта? <Anchor component={Link} to="/register">Регистрация</Anchor>
             </Text>
           </Stack>
         </form>
-      </Card>
-    </Container>
+      </Paper>
+    </AuthLayout>
   );
 }

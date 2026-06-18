@@ -111,6 +111,7 @@ async def _upsert_trainer_tasks(session: AsyncSession, root: Path) -> dict[str, 
             session.add(task)
         task.title = data["title"]
         task.instructions_md = data.get("instructions", "")
+        task.solution_notes = data.get("solution_notes", "")
         task.sheet = data.get("sheet", {})
         task.editable = data.get("editable", [])
         await session.flush()

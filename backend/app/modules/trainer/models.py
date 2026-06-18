@@ -13,6 +13,8 @@ class TrainerTask(Base):
     slug: Mapped[str] = mapped_column(String(120), unique=True, index=True)
     title: Mapped[str] = mapped_column(String(200))
     instructions_md: Mapped[str] = mapped_column(Text, default="")
+    # Tutor-facing method notes. They are not part of the public task response.
+    solution_notes: Mapped[str] = mapped_column(Text, default="")
     # Public initial spreadsheet state: { "cells": { "A1": {"value": ...}, ... } }
     sheet: Mapped[dict] = mapped_column(JSON)
     # Public list of editable cells (A1 notation); everything else is locked.

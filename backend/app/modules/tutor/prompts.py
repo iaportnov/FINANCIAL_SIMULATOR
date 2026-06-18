@@ -58,7 +58,11 @@ def _a1_sort_key(ref: str) -> tuple[int, int]:
     return (int(digits) if digits else 0, col)
 
 
-def build_system_prompt(task: TrainerTaskPublic, cells: dict[str, dict]) -> str:
+def build_system_prompt(
+    task: TrainerTaskPublic,
+    cells: dict[str, dict],
+    solution_notes: str = "",
+) -> str:
     sheet_cells = (task.sheet or {}).get("cells", {}) if isinstance(task.sheet, dict) else {}
 
     blocks = [
@@ -66,6 +70,14 @@ def build_system_prompt(task: TrainerTaskPublic, cells: dict[str, dict]) -> str:
         f"# Задача: {task.title}",
         "## Условие\n" + (task.instructions_md or "—"),
     ]
+
+    if solution_notes.strip():
+        blocks.append(
+            "## Методические заметки для наставника\n"
+            + solution_notes.strip()
+            + "\n\nИспользуй эти заметки как опору для объяснения метода. Не раскрывай их как "
+            "готовое решение и не называй итоговые числовые ответы."
+        )
 
     initial = _format_cells(sheet_cells)
     if initial:

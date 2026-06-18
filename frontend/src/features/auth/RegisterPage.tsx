@@ -1,8 +1,9 @@
-import { Anchor, Button, Card, Container, PasswordInput, Stack, Text, TextInput, Title } from "@mantine/core";
+import { Anchor, Button, Paper, PasswordInput, Stack, Text, TextInput, Title } from "@mantine/core";
 import { type FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useAuthStore } from "../../shared/auth/store";
+import { AuthLayout } from "./AuthLayout";
 import { fetchMe, login, register } from "./api";
 
 export function RegisterPage() {
@@ -30,22 +31,29 @@ export function RegisterPage() {
   };
 
   return (
-    <Container size="xs" mt="xl">
-      <Card withBorder padding="lg">
+    <AuthLayout>
+      <Paper withBorder p="xl">
         <form onSubmit={onSubmit}>
           <Stack>
-            <Title order={3}>Регистрация</Title>
+            <div>
+              <Title order={3}>Создать аккаунт</Title>
+              <Text c="dimmed" fz="sm" mt={2}>
+                Начните с бесплатного диагностического кейса.
+              </Text>
+            </div>
             <TextInput label="Имя" value={displayName} onChange={(e) => setDisplayName(e.currentTarget.value)} required />
-            <TextInput label="Email" value={email} onChange={(e) => setEmail(e.currentTarget.value)} required />
+            <TextInput label="Email" placeholder="you@company.ru" value={email} onChange={(e) => setEmail(e.currentTarget.value)} required />
             <PasswordInput label="Пароль" description="Минимум 8 символов" value={password} onChange={(e) => setPassword(e.currentTarget.value)} required />
             {error && <Text c="red" size="sm">{error}</Text>}
-            <Button type="submit">Создать аккаунт</Button>
-            <Text size="sm">
+            <Button type="submit" size="md" mt={4}>
+              Создать аккаунт
+            </Button>
+            <Text size="sm" ta="center" c="dimmed">
               Уже есть аккаунт? <Anchor component={Link} to="/login">Войти</Anchor>
             </Text>
           </Stack>
         </form>
-      </Card>
-    </Container>
+      </Paper>
+    </AuthLayout>
   );
 }

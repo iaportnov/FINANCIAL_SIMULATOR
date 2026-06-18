@@ -44,7 +44,7 @@ class TutorService:
             sheet=task.sheet,
             editable=task.editable,
         )
-        system = build_system_prompt(public, cells)
+        system = build_system_prompt(public, cells, task.solution_notes)
         conversation = [{"role": m.role, "content": m.content} for m in messages]
 
         reply = await client.complete(system, conversation)

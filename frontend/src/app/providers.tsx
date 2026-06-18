@@ -1,4 +1,5 @@
 import "@mantine/core/styles.css";
+import "../styles/global.css";
 
 import { MantineProvider } from "@mantine/core";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -7,15 +8,19 @@ import { BrowserRouter } from "react-router-dom";
 
 import { bootstrapSession } from "../shared/auth/session";
 import { useAuthStore } from "../shared/auth/store";
+import { RewardProvider } from "../shared/ui/reward";
+import { theme } from "./theme";
 
 const queryClient = new QueryClient();
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <MantineProvider>
+    <MantineProvider theme={theme} defaultColorScheme="light">
       <QueryClientProvider client={queryClient}>
         <SessionBootstrap>
-          <BrowserRouter>{children}</BrowserRouter>
+          <BrowserRouter>
+            <RewardProvider>{children}</RewardProvider>
+          </BrowserRouter>
         </SessionBootstrap>
       </QueryClientProvider>
     </MantineProvider>

@@ -2,23 +2,23 @@
 # the seeder resolves slugs to ids. Strictly linear gating on MVP.
 courses:
   - slug: personal-finance-basics
-    title: IFRS-тренажер для специалистов
-    description: Практический курс по расчетам IFRS 16 и IFRS 15 для специалистов с 1–2 годами опыта.
+    title: МСФО-тренажер для специалистов
+    description: Практический курс по расчетам МСФО (IFRS) 16 и МСФО (IFRS) 15 для специалистов с 1–2 годами опыта.
     order: 1
     blocks:
       - slug: budgeting
-        title: "IFRS 16: аренда у арендатора"
+        title: "МСФО (IFRS) 16: аренда у арендатора"
         xp: 50
         steps:
           - { type: lesson, ref: budgeting-basics, title: "Урок: признание и оценка аренды" }
-          - { type: quiz, ref: budgeting-quiz, title: "Тест: IFRS 16" }
-          - { type: trainer_task, ref: lease-error-check, title: "Практика: найдите ошибку в расчете аренды" }
-          - { type: trainer_task, ref: loan-monthly-payment, title: "Тренажер: расчет lease liability и ROU asset" }
+          - { type: quiz, ref: budgeting-quiz, title: "Тест: МСФО (IFRS) 16" }
+          - { type: trainer_task, ref: lease-error-check, title: "Практика: найдите ошибку в арендном обязательстве" }
+          - { type: trainer_task, ref: loan-monthly-payment, title: "Тренажер: первоначальная оценка аренды у арендатора" }
       - slug: saving
-        title: "IFRS 15: выручка по договорам"
+        title: "МСФО (IFRS) 15: выручка по договорам с покупателями"
         xp: 50
         steps:
-          - { type: lesson, ref: saving-basics, title: "Урок: transaction price и allocation" }
-          - { type: quiz, ref: saving-quiz, title: "Тест: IFRS 15" }
-          - { type: trainer_task, ref: revenue-error-check, title: "Практика: найдите ошибку в расчете выручки" }
-          - { type: trainer_task, ref: savings-goal, title: "Тренажер: распределение цены сделки" }
+          - { type: lesson, ref: saving-basics, title: "Урок: цена операции и распределение" }
+          - { type: quiz, ref: saving-quiz, title: "Тест: МСФО (IFRS) 15" }
+          - { type: trainer_task, ref: revenue-error-check, title: "Практика: найдите ошибку в признании выручки" }
+          - { type: trainer_task, ref: savings-goal, title: "Тренажер: распределение цены операции" }
