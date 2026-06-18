@@ -72,7 +72,11 @@ export function QuizPage() {
         </Card>
       ))}
 
-      <Button onClick={() => submit.mutate()} loading={submit.isPending}>Проверить</Button>
+      {!result?.passed && (
+        <Button onClick={() => submit.mutate()} loading={submit.isPending}>
+          Проверить
+        </Button>
+      )}
 
       {result && (
         <Text fw={700} c={result.passed ? "green" : "red"}>

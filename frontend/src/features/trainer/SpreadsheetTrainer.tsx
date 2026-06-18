@@ -12,6 +12,7 @@ interface Props {
   sheet: { cells?: Record<string, { value?: unknown; formula?: string | null }> };
   editable: string[];
   onSubmit: (cells: CellModel) => void;
+  hideSubmit?: boolean;
 }
 
 const READONLY_CELL_BG = "#f1f3f5";
@@ -159,7 +160,7 @@ export function extractCellModel(sheet: Pick<Sheet, "celldata" | "data"> | undef
  * (task sheet in, CellModel out); the Fortune-sheet engine is isolated here, so
  * swapping engines later means rewriting only this file (see ADR-0006).
  */
-export function SpreadsheetTrainer({ sheet, editable, onSubmit }: Props) {
+export function SpreadsheetTrainer({ sheet, editable, onSubmit, hideSubmit }: Props) {
   const ref = useRef<WorkbookInstance>(null);
 
   const editableCells = useMemo(() => new Set(editable.map(normalizeA1)), [editable]);
@@ -185,7 +186,7 @@ export function SpreadsheetTrainer({ sheet, editable, onSubmit }: Props) {
           }}
         />
       </div>
-      <Button onClick={handleSubmit}>Проверить</Button>
+      {!hideSubmit && <Button onClick={handleSubmit}>Проверить</Button>}
     </Stack>
   );
 }

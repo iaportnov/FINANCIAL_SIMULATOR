@@ -32,7 +32,12 @@ export function TrainerPage() {
       <TypographyStylesProvider>
         <ReactMarkdown>{task.instructions_md}</ReactMarkdown>
       </TypographyStylesProvider>
-      <SpreadsheetTrainer sheet={task.sheet} editable={task.editable} onSubmit={(c) => submit.mutate(c)} />
+      <SpreadsheetTrainer
+        sheet={task.sheet}
+        editable={task.editable}
+        onSubmit={(c) => submit.mutate(c)}
+        hideSubmit={result?.passed}
+      />
       {result && (
         <Text fw={700} c={result.passed ? "green" : "red"}>
           {result.passed ? "Задача решена!" : "Пока неверно — попробуйте ещё раз."}
