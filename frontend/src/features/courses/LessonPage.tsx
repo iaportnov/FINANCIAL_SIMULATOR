@@ -1,6 +1,7 @@
-import { Button, Stack, Text, Title } from "@mantine/core";
+import { Button, Stack, Text, Title, TypographyStylesProvider } from "@mantine/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 
 import { completeStep } from "../progression/api";
 import { fetchLesson } from "./api";
@@ -31,8 +32,9 @@ export function LessonPage() {
   return (
     <Stack maw={760}>
       <Title order={2}>{lesson.title}</Title>
-      {/* TODO: render Markdown via react-markdown; raw text for the skeleton. */}
-      <Text style={{ whiteSpace: "pre-wrap" }}>{lesson.content_md}</Text>
+      <TypographyStylesProvider>
+        <ReactMarkdown>{lesson.content_md}</ReactMarkdown>
+      </TypographyStylesProvider>
       {Boolean(stepId) && (
         <Button onClick={() => complete.mutate()} loading={complete.isPending}>
           Пометить пройденным

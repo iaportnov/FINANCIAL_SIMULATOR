@@ -1,11 +1,17 @@
+import re
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.errors import NotFoundError, ValidationError
-from app.core.grading import within_tolerance
+from app.core.grading import coerce_number, within_tolerance
 from app.modules.progression import service as progression_service
 from app.modules.trainer.models import TrainerSubmission
 from app.modules.trainer.repository import TrainerRepository
 from app.modules.trainer.schemas import CellResult, TrainerResult, TrainerTaskPublic
+
+CELL_REF_RE = re.compile(r"(?<![A-Z0-9_])\$?[A-Z]{1,3}\$?\d+(?![A-Z0-9_])", re.IGNORECASE)
+FUNCTION_CALL_RE = re.compile(r"(?<![A-Z0-9_])[_A-Z][._A-Z0-9]*\s*\(", re.IGNORECASE)
+PLAIN_NUMBER_RE = re.compile(r"^[+-]?(?:\d+(?:[.,]\d*)?|[.,]\d+)(?:[eE][+-]?\d+)?$")
 
 
 class TrainerService:
@@ -66,12 +72,44 @@ class TrainerService:
 
         if not within_tolerance(value, rule.get("expected"), rule.get("tolerance")):
             return False
-        if rule.get("must_be_formula") and not formula.strip().startswith("="):
+        if rule.get("must_be_formula") and not TrainerService._looks_like_formula(formula):
             return False
         required = rule.get("must_use_function")
         if required:
-            normalized = formula.upper().replace(" ", "")
             for fn in required:
-                if f"{fn.upper()}(" not in normalized:
+                if not TrainerService._uses_function(formula, str(fn)):
                     return False
         return True
+
+    @staticmethod
+    def _looks_like_formula(formula: str) -> bool:
+        text = formula.strip()
+        if not text:
+            return False
+        if text.startswith("="):
+            return len(text) > 1
+        if TrainerService._is_plain_number_text(text):
+            return False
+        return bool(
+            CELL_REF_RE.search(text)
+            or FUNCTION_CALL_RE.search(text)
+            or any(operator in text for operator in ("+", "-", "*", "/", "^"))
+        )
+
+    @staticmethod
+    def _uses_function(formula: str, function_name: str) -> bool:
+        text = formula.upper().replace(";", ",")
+        escaped = re.escape(function_name.upper())
+        return re.search(rf"(?<![A-Z0-9_]){escaped}\s*\(", text) is not None
+
+    @staticmethod
+    def _is_plain_number_text(text: str) -> bool:
+        normalized = (
+            text.strip()
+            .replace("\u00a0", "")
+            .replace("\u202f", "")
+            .replace(" ", "")
+            .replace("_", "")
+        )
+        normalized = re.sub(r"[$€₽¥£]", "", normalized)
+        return PLAIN_NUMBER_RE.fullmatch(normalized) is not None and coerce_number(normalized) is not None

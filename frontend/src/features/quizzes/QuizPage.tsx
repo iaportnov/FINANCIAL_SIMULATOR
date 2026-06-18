@@ -1,12 +1,13 @@
 import { Badge, Button, Card, Checkbox, NumberInput, Radio, Stack, Text, Title } from "@mantine/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { type AnswerInput, fetchQuiz, type QuizResult, submitQuiz } from "./api";
 
 export function QuizPage() {
   const { quizId } = useParams();
+  const navigate = useNavigate();
   const id = Number(quizId);
   const queryClient = useQueryClient();
   const { data: quiz, isLoading } = useQuery({ queryKey: ["quiz", quizId], queryFn: () => fetchQuiz(id) });
@@ -77,6 +78,11 @@ export function QuizPage() {
         <Text fw={700} c={result.passed ? "green" : "red"}>
           Результат: {Math.round(result.score * 100)}% — {result.passed ? "сдано" : "не сдано"}
         </Text>
+      )}
+      {result?.passed && (
+        <Button onClick={() => navigate("/")} color="green">
+          К карте
+        </Button>
       )}
     </Stack>
   );

@@ -28,6 +28,11 @@ def test_within_tolerance_rejects_none():
     assert not within_tolerance(None, 10, {"type": "absolute", "value": 1})
 
 
+def test_within_tolerance_accepts_human_number_formatting():
+    assert within_tolerance("44 424,36 ₽", 44424.36, {"type": "absolute", "value": 0.01})
+    assert within_tolerance("44,424.36", 44424.36, {"type": "absolute", "value": 0.01})
+
+
 # --- trainer rule checking --------------------------------------------------
 
 def test_trainer_rule_requires_formula_and_function():
@@ -44,6 +49,30 @@ def test_trainer_rule_requires_formula_and_function():
     assert not TrainerService._check_rule(rule, {"value": 11122.22, "formula": ""})
     # formula present but wrong function → fails must_use_function
     assert not TrainerService._check_rule(rule, {"value": 11122.22, "formula": "=SUM(A1:A2)"})
+
+
+def test_trainer_rule_accepts_formula_without_leading_equals_from_engine():
+    rule = {
+        "cell": "B5",
+        "expected": 44424.36,
+        "tolerance": {"type": "relative", "value": 0.01},
+        "must_be_formula": True,
+    }
+
+    assert TrainerService._check_rule(rule, {"value": "44 424,36", "formula": "B1*(B2/12/100)"})
+    assert not TrainerService._check_rule(rule, {"value": "44 424,36", "formula": "44424.36"})
+
+
+def test_trainer_rule_function_check_accepts_separator_variants():
+    rule = {
+        "cell": "B5",
+        "expected": 11122.22,
+        "tolerance": {"type": "relative", "value": 0.01},
+        "must_be_formula": True,
+        "must_use_function": ["PMT"],
+    }
+
+    assert TrainerService._check_rule(rule, {"value": 11120, "formula": "PMT(0,01;12;-100000)"})
 
 
 def test_trainer_rule_value_only():
