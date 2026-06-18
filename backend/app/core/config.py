@@ -25,9 +25,9 @@ class Settings(BaseSettings):
     # Content directory (source for the seeder)
     content_dir: str = "../content"
 
-    # AI tutor (Anthropic Claude). Empty key disables the assistant endpoint.
-    anthropic_api_key: str = ""
-    tutor_model: str = "claude-opus-4-8"
+    # AI tutor (OpenAI-compatible). Empty key disables the assistant endpoint.
+    openai_api_key: str = ""
+    tutor_model: str = "openai/gpt-4o-mini"
     tutor_max_tokens: int = 1024
 
     @property
@@ -36,7 +36,7 @@ class Settings(BaseSettings):
 
     @property
     def tutor_enabled(self) -> bool:
-        return bool(self.anthropic_api_key)
+        return bool(self.openai_api_key)
 
 
 @lru_cache
